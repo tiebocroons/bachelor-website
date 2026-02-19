@@ -134,7 +134,6 @@ function scrollToAnchor(href) {
               alt="3D model"
               autoplay
               auto-rotate
-              camera-controls
               interaction-prompt="none"
               shadow-intensity="0.6"
               environment-image="neutral"
