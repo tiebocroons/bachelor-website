@@ -346,7 +346,6 @@ function scrollToAnchor(href) {
   z-index: 10;
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
   padding: 14px 18px;
   display: flex;
   align-items: center;
@@ -434,7 +433,7 @@ function scrollToAnchor(href) {
 
 
 .tagline {
-  padding: 22px 18px 34px;
+  padding: 60px 18px 34px;
   text-align: center;
 }
 
