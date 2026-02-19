@@ -190,8 +190,8 @@ function scrollToAnchor(href) {
 
         <div class="bap-bottom">
           <div class="stats">
+            <div class="stat-kicker">BAMABAMBAMBA</div>
             <div class="stat">
-              <div class="stat-kicker">BAMABAMBAMBA</div>
               <div class="stat-value">1.5+mld</div>
               <div class="stat-label">audiogrammen wereldwijd</div>
             </div>
@@ -601,7 +601,9 @@ function scrollToAnchor(href) {
 }
 
 .stat {
+  display: grid;
   padding: 10px 12px;
+  grid-template-rows: 1fr 1fr;
 }
 
 .stat-kicker {
