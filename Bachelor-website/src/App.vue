@@ -630,8 +630,9 @@ function scrollToAnchor(href) {
 }
 
 .bap-list {
+  padding-top: 45%;
   display: grid;
-  gap: 14px;
+  gap: 70px;
 }
 
 .bap-item {
@@ -668,8 +669,8 @@ function scrollToAnchor(href) {
 .usp-card {
   max-width: 1080px;
   margin: 0 auto;
-  background: var(--color-background-mute);
-  border: 1px solid var(--color-border);
+  background: #7d7d7d7b;
+  color: #ffffff;
   border-radius: 14px;
   padding: 18px;
   display: grid;
