@@ -551,12 +551,13 @@ function scrollToAnchor(href) {
   position: relative;
   overflow: hidden;
   padding: 40px 18px 26px;
-  background-repeat: no-repeat;
-  background-position: right center;
   background-size: 900px auto;
 }
 .main {
   background-image: url('./assets/wave-gray.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 900px auto;
 }
 
 .bap-top {
