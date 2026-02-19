@@ -106,10 +106,9 @@ function scrollToAnchor(href) {
       <a class="nav-cta" href="#contact" @click.prevent="scrollToAnchor('#contact')">
         Chat service
       </a>
+      
     </header>
-
-    <main>
-      <section class="hero" aria-label="Hero">
+    <section class="hero" aria-label="Hero">
         <div class="hero-inner">
           <div class="hero-copy">
             <h1 class="hero-title">Sonaris</h1>
@@ -144,6 +143,7 @@ function scrollToAnchor(href) {
         </div>
 
       </section>
+    <main class="main">
 
       <section class="tagline" aria-label="Tagline">
         <h3 class="tagline-title">Zorgprofessionals verdrinken in data, niet in tijd.</h3>
@@ -551,10 +551,12 @@ function scrollToAnchor(href) {
   position: relative;
   overflow: hidden;
   padding: 40px 18px 26px;
-  background-image: url('./assets/wave-gray.svg');
   background-repeat: no-repeat;
   background-position: right center;
   background-size: 900px auto;
+}
+.main {
+  background-image: url('./assets/wave-gray.svg');
 }
 
 .bap-top {
