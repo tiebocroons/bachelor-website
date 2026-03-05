@@ -692,7 +692,7 @@ function scrollToAnchor(href) {
 .usp-card {
   max-width: 1080px;
   margin: 0 auto;
-  background: #7d7d7d7b;
+  background: #c0c0c0;
   color: #ffffff;
   border-radius: 14px;
   padding: 18px;
