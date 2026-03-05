@@ -345,6 +345,7 @@ function scrollToAnchor(href) {
 <style scoped>
 .page {
   color: var(--color-text);
+  overflow-x: hidden;
 }
 
 .topbar {
@@ -560,10 +561,23 @@ function scrollToAnchor(href) {
   background-size: 900px auto;
 }
 .main {
+  position: relative;
+}
+
+.main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130vw;
+  height: 100%;
   background-image: url('./assets/wave-gray.svg');
   background-repeat: no-repeat;
-  background-position: center 30%;
-  background-size: 100% 1400px;
+  background-position: center top;
+  background-size: 120% auto;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .bap-top {
@@ -685,6 +699,7 @@ function scrollToAnchor(href) {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 18px;
   align-items: center;
+  z-index: 40;
 }
 
 .usp-title {
