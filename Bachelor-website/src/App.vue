@@ -104,7 +104,7 @@ function scrollToAnchor(href) {
       </nav>
 
       <a class="nav-cta" href="#contact" @click.prevent="scrollToAnchor('#contact')">
-        Chat service
+        Get more info
       </a>
       
     </header>
