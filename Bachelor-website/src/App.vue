@@ -577,7 +577,7 @@ function scrollToAnchor(href) {
   background-position: center top;
   background-size: 120% auto;
   pointer-events: none;
-  z-index: 0;
+  z-index: -99;
 }
 
 .bap-top {
@@ -686,6 +686,7 @@ function scrollToAnchor(href) {
 
 .usp {
   padding: 18px;
+  z-index: 99;
 }
 
 .usp-card {
@@ -699,12 +700,13 @@ function scrollToAnchor(href) {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 18px;
   align-items: center;
-  z-index: 40;
+  z-index: 99;
 }
 
 .usp-title {
   font-weight: 800;
   font-size: 16px;
+  z-index: 99;
 }
 
 .usp-body {
