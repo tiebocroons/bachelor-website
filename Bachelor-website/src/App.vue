@@ -562,8 +562,8 @@ function scrollToAnchor(href) {
 .main {
   background-image: url('./assets/wave-gray.svg');
   background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 900px auto;
+  background-position: center 30%;
+  background-size: 100% 1400px;
 }
 
 .bap-top {
