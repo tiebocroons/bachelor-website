@@ -9,16 +9,14 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
-const featureIcons = Array.from({ length: 5 }, (_, i) => ({ id: i }))
-
 const highlightCards = [
   {
-    title: 'Boom',
-    body: 'Korte toelichting op het concept en waarom dit relevant is voor de doelgroep.',
+    title: 'Wat is Sonaris?',
+    body: 'Sonaris is een digitale applicatie die zorgprofessionals ondersteunt bij het analyseren en interpreteren van audiogrammen. Door complexe meetgegevens automatisch te structureren en te vertalen naar duidelijke, evidence-based classificaties, helpt Sonaris om sneller tot consistente en transparante inzichten te komen. De tool fungeert daarbij als beslissingsondersteuning: hij versterkt het klinisch oordeel van de professional zonder dit over te nemen.',
   },
   {
-    title: 'Bam',
-    body: 'Nog een korte toelichting met focus op workflow, inzicht en tijdswinst.',
+    title: 'Waarom Sonaris ertoe doet?',
+    body: 'Dit is bijzonder relevant voor de doelgroep van audiologen, KNO-artsen en andere hoorzorgprofessionals, die vandaag geconfronteerd worden met toenemende tijdsdruk, een groeiende hoeveelheid data en de nood aan uniforme interpretatie. Sonaris draagt bij aan efficiëntere workflows, vermindert interpretatievariatie en ondersteunt kwaliteitsvolle, ethisch verantwoorde zorgverlening.',
   },
 ]
 
@@ -150,30 +148,25 @@ function scrollToAnchor(href) {
       </section>
 
       <section class="bap" id="onderzoek" aria-label="Onderzoek">
-        <div class="bap-center">
-          <h3 class="bap-title">BAP</h3>
-          <p class="bap-body">
-            Van ruwe audiogramdata naar consistente interpretatie en een rapportage die klaar is om te delen.
-          </p>
-        </div>
-
         <div class="bap-bottom">
           <div class="stats">
             <div class="stat-kicker">BAMABAMBAMBA</div>
-            <div class="stat">
-              <div class="stat-value">1.5+mld</div>
-              <div class="stat-label">audiogrammen wereldwijd</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">90%+</div>
-              <div class="stat-label">rapportage bruikbaar na eerste output</div>
+            <div class="stats-grid">
+              <div class="stat">
+                <div class="stat-value">1.5+mld</div>
+                <div class="stat-label">Introduction copy lorem ipsum dolor.</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">90%+</div>
+                <div class="stat-label">Of people who medically qualify for a Cochlear Implant (CI) are currently under-treated</div>
+              </div>
             </div>
             <div class="stat-card img-placeholder" aria-hidden="true" />
           </div>
 
           <div class="bap-list">
             <article class="bap-item">
-              <div class="bap-bullet" aria-hidden="true" />
+              <div class="bap-item-image img-placeholder" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -182,7 +175,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <div class="bap-bullet" aria-hidden="true" />
+              <div class="bap-item-image img-placeholder" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -191,7 +184,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <div class="bap-bullet" aria-hidden="true" />
+              <div class="bap-item-image img-placeholder" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -552,34 +545,6 @@ function scrollToAnchor(href) {
   z-index: -99;
 }
 
-.bap-top {
-  max-width: 1080px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.bap-image {
-  aspect-ratio: 16 / 9;
-}
-
-.bap-center {
-  max-width: 760px;
-  margin: 16px auto 0;
-  text-align: center;
-}
-
-.bap-title {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.bap-body {
-  margin-top: 10px;
-  color: color-mix(in srgb, var(--color-text) 70%, transparent);
-}
-
 .bap-bottom {
   max-width: 1080px;
   margin: 22px auto 0;
@@ -594,10 +559,14 @@ function scrollToAnchor(href) {
   gap: 12px;
 }
 
+.stats-grid {
+  display: flex;
+  gap: 14px;
+}
+
 .stat {
-  display: grid;
-  padding: 10px 12px;
-  grid-template-rows: 1fr 1fr;
+  flex: 1;
+  padding: 10px 0;
 }
 
 .stat-kicker {
@@ -607,8 +576,7 @@ function scrollToAnchor(href) {
 }
 
 .stat-value {
-  margin-top: 4px;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--color-accent);
 }
@@ -620,33 +588,30 @@ function scrollToAnchor(href) {
 }
 
 .stat-card {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
 }
 
 .bap-list {
-  padding-top: 45%;
   display: grid;
-  gap: 70px;
+  gap: 28px;
+  align-content: start;
 }
 
 .bap-item {
-  display: grid;
-  grid-template-columns: 18px 1fr;
-  gap: 10px;
-  align-items: start;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
 }
 
-.bap-bullet {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  background: var(--color-background-mute);
-  border: 1px solid var(--color-border);
-  margin-top: 4px;
+.bap-item-image {
+  width: 80px;
+  min-width: 80px;
+  flex-shrink: 0;
+  aspect-ratio: 4 / 3;
 }
 
 .bap-item-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -940,20 +905,18 @@ function scrollToAnchor(href) {
   filter: brightness(1.05);
 }
 
+/* ── Tablet (≤ 900px) ── */
 @media (max-width: 900px) {
   .hero-inner {
     grid-template-columns: 1fr;
   }
 
+  .hero-model {
+    width: 260px;
+    height: 260px;
+  }
+
   .highlight {
-    grid-template-columns: 1fr;
-  }
-
-  .micro-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .bap-top {
     grid-template-columns: 1fr;
   }
 
@@ -983,6 +946,77 @@ function scrollToAnchor(href) {
 
   .newsletter-form {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ── Phone (≤ 600px) ── */
+@media (max-width: 600px) {
+  .topbar {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .hero {
+    padding: 100px 14px 24px;
+  }
+
+  .hero-subtitle {
+    font-size: 20px;
+  }
+
+  .hero-body {
+    font-size: 13px;
+  }
+
+  .hero-model {
+    width: 200px;
+    height: 200px;
+  }
+
+  .highlights {
+    padding: 14px;
+  }
+
+  .stats-grid {
+    flex-direction: column;
+  }
+
+  .bap-item-image {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-track {
+    grid-template-columns: 1fr;
+  }
+
+  .usp-card {
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+  }
+
+  .footer-cols {
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
