@@ -556,8 +556,8 @@ function scrollToAnchor(href) {
   margin: 22px auto 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  align-items: start;
+  gap: 100px;
+  align-items: center;
 }
 
 .stats {
@@ -598,6 +598,7 @@ function scrollToAnchor(href) {
 }
 
 .bap-list {
+  padding-top: 25%;
   display: grid;
   gap: 28px;
   align-content: start;
