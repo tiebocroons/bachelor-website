@@ -91,6 +91,7 @@ function scrollToAnchor(href) {
 <template>
   <div class="page" id="home">
     <header class="topbar">
+      <a class="nav-logo" href="#home" @click.prevent="scrollToAnchor('#home')">Sonaris</a>
       <nav class="nav">
         <a
           v-for="link in navLinks"
@@ -111,13 +112,11 @@ function scrollToAnchor(href) {
     <section class="hero" aria-label="Hero">
         <div class="hero-inner">
           <div class="hero-copy">
-            <h1 class="hero-title">Sonaris</h1>
             <h2 class="hero-subtitle">
-              Gestandaardiseerde audiograminterpretatie voor betere doorverwijzing
+              Slimmere gehoortest-interpretatie voor de juiste keuze tussen hoorapparaat of gehoorimplantaat
             </h2>
             <p class="hero-body">
-              Vereenvoudig interpretatie, rapportage en communicatie — zodat zorgprofessionals minder tijd
-              kwijt zijn aan data en meer aan de patiënt.
+              Sonaris analyseert audiogramresultaten en vertaalt ze naar heldere aanbevelingen — zodat zorgprofessionals sneller en zekerder kunnen beslissen welke oplossing het beste past bij de patiënt.
             </p>
 
             <div class="hero-actions">
@@ -376,6 +375,14 @@ function scrollToAnchor(href) {
   text-decoration: underline;
 }
 
+.nav-logo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
 .nav-cta {
   text-decoration: none;
   font-size: 12px;
@@ -402,13 +409,6 @@ function scrollToAnchor(href) {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 28px;
   align-items: center;
-}
-
-.hero-title {
-  font-size: 44px;
-  line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
