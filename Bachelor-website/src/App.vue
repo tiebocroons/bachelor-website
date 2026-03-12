@@ -730,7 +730,7 @@ function scrollToAnchor(href) {
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 14px;
-  background: var(--color-background);
+  background: #ffffff;
   cursor: pointer;
   opacity: 0.75;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -804,7 +804,7 @@ function scrollToAnchor(href) {
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid var(--color-border);
-  background: var(--color-background);
+  background: #ffffff;
   outline: none;
 }
 
