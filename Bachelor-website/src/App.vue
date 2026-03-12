@@ -364,7 +364,13 @@ function scrollToAnchor(href) {
   background-image: url('./assets/wave-red.svg');
   background-repeat: no-repeat;
   background-position: 50% 100%;
-  background-size: min(1600px, 120vw) auto;
+  background-size: auto;
+}
+
+@media (min-width: 1200px) {
+  .hero {
+    background-size: 120vw auto;
+  }
 }
 
 .hero-inner {
