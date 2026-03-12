@@ -22,12 +22,6 @@ const highlightCards = [
   },
 ]
 
-const microCards = Array.from({ length: 4 }, (_, i) => ({
-  id: i,
-  title: 'Lorem ipsum',
-  body: 'Introductie op kernpunt in één zin.',
-}))
-
 const products = Array.from({ length: 4 }, (_, i) => ({
   id: i,
   title: 'Lorem ipsum',
@@ -143,16 +137,6 @@ function scrollToAnchor(href) {
       </section>
     <main class="main">
 
-      <section class="tagline" aria-label="Tagline">
-        <h3 class="tagline-title">Zorgprofessionals verdrinken in data, niet in tijd.</h3>
-        <p class="tagline-sub">
-          Sonaris helpt interpretatie structureren, zodat beslissingen sneller en consistenter worden.
-        </p>
-        <div class="tagline-icons" aria-hidden="true">
-          <div v-for="icon in featureIcons" :key="icon.id" class="mini-icon" />
-        </div>
-      </section>
-
       <section class="highlights" id="over-ons" aria-label="Highlights">
         <div class="highlight" v-for="card in highlightCards" :key="card.title">
           <div class="highlight-copy">
@@ -165,21 +149,7 @@ function scrollToAnchor(href) {
         </div>
       </section>
 
-      <section class="micro" aria-label="Micro features">
-        <div class="micro-grid">
-          <article v-for="item in microCards" :key="item.id" class="micro-card">
-            <div class="micro-icon" aria-hidden="true" />
-            <h4 class="micro-title">{{ item.title }}</h4>
-            <p class="micro-body">{{ item.body }}</p>
-          </article>
-        </div>
-      </section>
-
       <section class="bap" id="onderzoek" aria-label="Onderzoek">
-        <div class="bap-top">
-          <div class="bap-image img-placeholder" aria-hidden="true" />
-          <div class="bap-image img-placeholder" aria-hidden="true" />
-        </div>
         <div class="bap-center">
           <h3 class="bap-title">BAP</h3>
           <p class="bap-body">
@@ -348,8 +318,10 @@ function scrollToAnchor(href) {
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   background: color-mix(in srgb, var(--color-background) 92%, transparent);
   backdrop-filter: blur(10px);
@@ -395,7 +367,7 @@ function scrollToAnchor(href) {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 56px 18px 28px;
+  padding: 112px 18px 28px;
   background-image: url('./assets/wave-red.svg');
   background-repeat: no-repeat;
   background-position: 50% 100%;
