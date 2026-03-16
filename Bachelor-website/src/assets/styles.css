@@ -1,0 +1,130 @@
+/* Branding Colors */
+:root {
+  --color-saffron-red: #e60f30;
+  --color-porcelain-white: #f8fafa;
+  --color-smoke-white: #e5e4eb;
+  --color-coal-black: #161a1d;
+
+  --color-success: #1fbf80;
+  --color-warning: #f2a900;
+  --color-error: #e60f30;
+  --color-info: #3e7bfa;
+
+  --color-background: var(--color-porcelain-white);
+  --color-text: var(--color-coal-black);
+  --color-accent: var(--color-saffron-red);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Anek Tamil', sans-serif;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 80px;
+}
+
+/* h3 {
+  font-size: 24px;
+  font-weight: normal;
+} */
+
+h4 {
+  font-size: 20px;
+  font-weight: light;
+}
+
+body {
+  font-family: 'Anek Tamil', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+/* Layout and Grid System */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+}
+
+.col {
+  flex: 1;
+  padding: 0 8px;
+}
+
+/* Waves Style */
+.wave {
+  background-image: url('./assets/wave-red.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-porcelain-white);
+  font-family: 'Anek Tamil', sans-serif;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background-color: #c00d28;
+}
+
+.btn-secondary {
+  background-color: var(--color-coal-black);
+  color: var(--color-porcelain-white);
+  font-family: 'Anek Tamil', sans-serif;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+
+.btn-secondary:hover {
+  background-color: #0f1214;
+}
+
+/* Ensure images are properly constrained */
+img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Ensure placeholders and specific image containers are constrained */
+.img-placeholder,
+.hero-model,
+.stat-card,
+.bap-item-image,
+.usp-media,
+.product-image,
+.avatar {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+

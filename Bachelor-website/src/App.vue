@@ -1,5 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import heroModelSrc from './assets/model.glb?url'
 
 const navLinks = [
@@ -54,9 +56,227 @@ const testimonials = [
 ]
 
 const activeTestimonial = ref(1)
+const pageRef = ref(null)
+
+let animationContext
+
+function formatStatValue(value, decimals, prefix = '', suffix = '') {
+  const formattedValue =
+    decimals > 0 ? Number(value).toFixed(decimals) : String(Math.round(Number(value)))
+
+  return `${prefix}${formattedValue}${suffix}`
+}
+
 const activeIndex = computed(() => {
   const idx = testimonials.findIndex((t) => t.id === activeTestimonial.value)
   return Math.max(0, idx)
+})
+
+onMounted(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  animationContext = gsap.context(() => {
+    const clearRevealProps = 'transform,opacity,visibility'
+    const textReveal = {
+      autoAlpha: 0,
+      y: 24,
+      duration: 0.72,
+      ease: 'power3.out',
+      clearProps: clearRevealProps,
+    }
+    const cardReveal = {
+      autoAlpha: 0,
+      y: 34,
+      scale: 0.975,
+      duration: 0.88,
+      ease: 'power3.out',
+      clearProps: clearRevealProps,
+    }
+    const mediaReveal = {
+      autoAlpha: 0,
+      x: 24,
+      y: 20,
+      scale: 0.94,
+      duration: 0.96,
+      ease: 'power3.out',
+      clearProps: clearRevealProps,
+    }
+
+    gsap
+      .timeline({ defaults: { ease: 'power3.out' } })
+      .from('.hero-subtitle, .hero-body, .hero-actions', {
+        ...textReveal,
+        y: 30,
+        duration: 0.84,
+        stagger: 0.1,
+      })
+      .from(
+        '.hero-media',
+        {
+          ...mediaReveal,
+          x: 30,
+        },
+        '-=0.48'
+      )
+
+    gsap.utils.toArray('.highlight').forEach((element) => {
+      gsap.from(element, {
+        ...cardReveal,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 82%',
+          once: true,
+        },
+      })
+    })
+
+    gsap.from('.stats', {
+      ...cardReveal,
+      scrollTrigger: {
+        trigger: '.stats',
+        start: 'top 82%',
+        once: true,
+      },
+    })
+
+    gsap.from('.bap-item', {
+      ...textReveal,
+      x: 26,
+      y: 0,
+      duration: 0.78,
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: '.bap-list',
+        start: 'top 84%',
+        once: true,
+      },
+    })
+
+    gsap.from('.usp-card', {
+      ...cardReveal,
+      scrollTrigger: {
+        trigger: '.usp-card',
+        start: 'top 82%',
+        once: true,
+      },
+    })
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '.products',
+          start: 'top 82%',
+          once: true,
+        },
+      })
+      .from('.products .section-title', textReveal)
+      .from(
+        '.product-card',
+        {
+          ...cardReveal,
+          duration: 0.8,
+          stagger: 0.08,
+        },
+        '-=0.28'
+      )
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '.verdict',
+          start: 'top 82%',
+          once: true,
+        },
+      })
+      .from('.verdict .section-title', textReveal)
+      .from(
+        '.testimonial',
+        {
+          ...cardReveal,
+          y: 28,
+          scale: 0.985,
+          duration: 0.78,
+          stagger: 0.08,
+        },
+        '-=0.26'
+      )
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '.newsletter',
+          start: 'top 84%',
+          once: true,
+        },
+      })
+      .from('.newsletter .section-title, .newsletter-body', {
+        ...textReveal,
+        stagger: 0.1,
+      })
+      .from(
+        '.newsletter-form',
+        {
+          ...cardReveal,
+          y: 26,
+          scale: 0.985,
+          duration: 0.78,
+        },
+        '-=0.22'
+      )
+
+    gsap.from('.footer-left, .footer-col', {
+      ...textReveal,
+      y: 18,
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: '.footer',
+        start: 'top bottom',
+        once: true,
+      },
+    })
+
+    gsap.utils.toArray('.stat-value[data-count-to]').forEach((element) => {
+      const targetValue = Number(element.dataset.countTo ?? '0')
+      const decimals = Number(element.dataset.decimals ?? '0')
+      const prefix = element.dataset.prefix ?? ''
+      const suffix = element.dataset.suffix ?? ''
+      const counter = { value: 0 }
+
+      element.textContent = formatStatValue(0, decimals, prefix, suffix)
+
+      gsap.from(element, {
+        ...textReveal,
+        y: 18,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 86%',
+          once: true,
+        },
+      })
+
+      gsap.to(counter, {
+        value: targetValue,
+        duration: 1.4,
+        ease: 'power2.out',
+        onUpdate: () => {
+          element.textContent = formatStatValue(counter.value, decimals, prefix, suffix)
+        },
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 86%',
+          once: true,
+        },
+      })
+    })
+  }, pageRef.value)
+})
+
+onBeforeUnmount(() => {
+  animationContext?.revert()
 })
 
 function prevTestimonial() {
@@ -81,7 +301,7 @@ function scrollToAnchor(href) {
 </script>
 
 <template>
-  <div class="page" id="home">
+  <div ref="pageRef" class="page" id="home">
     <header class="topbar">
       <a class="nav-logo" href="#home" @click.prevent="scrollToAnchor('#home')">Sonaris</a>
       <nav class="nav">
@@ -104,9 +324,9 @@ function scrollToAnchor(href) {
     <section class="hero" aria-label="Hero">
         <div class="hero-inner">
           <div class="hero-copy">
-            <h2 class="hero-subtitle">
+            <h1 class="hero-subtitle">
               Slimmere gehoortest-interpretatie voor de juiste keuze tussen hoorapparaat of gehoorimplantaat
-            </h2>
+            </h1>
             <p class="hero-body">
               Sonaris analyseert audiogramresultaten en vertaalt ze naar heldere aanbevelingen — zodat zorgprofessionals sneller en zekerder kunnen beslissen welke oplossing het beste past bij de patiënt.
             </p>
@@ -125,7 +345,12 @@ function scrollToAnchor(href) {
               alt="3D model"
               autoplay
               auto-rotate
-              interaction-prompt="none"
+              auto-rotate-delay="0"
+              rotation-per-second="40deg"
+              camera-orbit="30deg 70deg auto"
+              camera-controls
+              disable-zoom
+              interaction-prompt="auto"
               shadow-intensity="0.6"
               environment-image="neutral"
             />
@@ -142,7 +367,7 @@ function scrollToAnchor(href) {
             <p class="section-body">{{ card.body }}</p>
           </div>
           <div class="highlight-media" aria-hidden="true">
-            <div class="img-placeholder" />
+            <img src="/Portrait%20of%20a%20lady%20with%20a%20cochlear%20implant..jpg" alt="Highlight Image" class="img-placeholder" />
           </div>
         </div>
       </section>
@@ -153,20 +378,24 @@ function scrollToAnchor(href) {
             <div class="stat-kicker">BAMABAMBAMBA</div>
             <div class="stats-grid">
               <div class="stat">
-                <div class="stat-value">1.5+mld</div>
+                <div class="stat-value" data-count-to="1.5" data-decimals="1" data-suffix="+mld">
+                  1.5+mld
+                </div>
                 <div class="stat-label">Introduction copy lorem ipsum dolor.</div>
               </div>
               <div class="stat">
-                <div class="stat-value">90%+</div>
+                <div class="stat-value" data-count-to="90" data-decimals="0" data-suffix="%+">
+                  90%+
+                </div>
                 <div class="stat-label">Of people who medically qualify for a Cochlear Implant (CI) are currently under-treated</div>
               </div>
             </div>
-            <div class="stat-card img-placeholder" aria-hidden="true" />
+            <img src="/_24A0522.jpg" alt="Stat Image" class="stat-card" aria-hidden="true" />
           </div>
 
           <div class="bap-list">
             <article class="bap-item">
-              <div class="bap-item-image img-placeholder" aria-hidden="true" />
+              <img src="/kopf+AP.jpg" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -175,7 +404,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <div class="bap-item-image img-placeholder" aria-hidden="true" />
+              <img src="/Portrait%20of%20a%20lady%20with%20a%20cochlear%20implant..jpg" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -184,7 +413,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <div class="bap-item-image img-placeholder" aria-hidden="true" />
+              <img src="/_24A0522.jpg" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Lorem ipsum dolor</h4>
                 <p class="bap-item-body">
@@ -205,7 +434,7 @@ function scrollToAnchor(href) {
             </p>
             <a class="btn btn-dark" href="#contact" @click.prevent="scrollToAnchor('#contact')">Lees meer</a>
           </div>
-          <div class="usp-media img-placeholder" aria-hidden="true" />
+          <img src="/kopf+AP.jpg" alt="USP Image" class="usp-media" aria-hidden="true" />
         </div>
       </section>
 
@@ -213,7 +442,7 @@ function scrollToAnchor(href) {
         <h3 class="section-title centered">Our products</h3>
         <div class="product-grid">
           <article v-for="p in products" :key="p.id" class="product-card">
-            <div class="product-image img-placeholder" aria-hidden="true" />
+            <img src="/Portrait%20of%20a%20lady%20with%20a%20cochlear%20implant..jpg" alt="Product Image" class="product-image" aria-hidden="true" />
             <h4 class="product-title">{{ p.title }}</h4>
             <p class="product-body">{{ p.body }}</p>
             <a class="btn btn-dark" href="#contact" @click.prevent="scrollToAnchor('#contact')">Lees meer</a>
@@ -243,7 +472,7 @@ function scrollToAnchor(href) {
               </div>
               <p class="quote">{{ t.quote }}</p>
               <div class="person">
-                <div class="avatar" aria-hidden="true" />
+                <img src="/_24A0522.jpg" alt="Testimonial Avatar" class="avatar" aria-hidden="true" />
                 <div>
                   <div class="person-name">{{ t.name }}</div>
                   <div class="person-role">{{ t.role }}</div>
@@ -316,8 +545,9 @@ function scrollToAnchor(href) {
   left: 0;
   right: 0;
   z-index: 10;
-  background: color-mix(in srgb, var(--color-background) 92%, transparent);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+  box-shadow: 0 8px 24px rgba(22, 26, 29, 0.06);
   padding: 14px 18px;
   display: flex;
   align-items: center;
@@ -334,6 +564,9 @@ function scrollToAnchor(href) {
   color: var(--color-text);
   text-decoration: none;
   font-size: 13px;
+  transition:
+    color 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav-link:hover {
@@ -355,21 +588,26 @@ function scrollToAnchor(href) {
   border-radius: 999px;
   background: #000000;
   color: #ffffff;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 112px 18px 28px;
+  padding: 120px 18px 80px;
   background-image: url('./assets/wave-red.svg');
   background-repeat: no-repeat;
-  background-position: 50% 100%;
+  background-position: 75% 110%;
   background-size: auto;
 }
 
 @media (min-width: 1200px) {
   .hero {
-    background-size: 120vw auto;
+    background-size: 110vw auto;
+    background-position: 80% 120%;
   }
 }
 
@@ -383,15 +621,19 @@ function scrollToAnchor(href) {
 }
 
 .hero-subtitle {
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
 }
 
 .hero-body {
-  margin-top: 10px;
-  max-width: 48ch;
-  color: color-mix(in srgb, var(--color-text) 75%, transparent);
+  margin-top: 14px;
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
 }
 
 .hero-actions {
@@ -404,8 +646,8 @@ function scrollToAnchor(href) {
 }
 
 .hero-model {
-  width: 320px;
-  height: 320px;
+  width: 460px;
+  height: 460px;
   max-width: 100%;
   background: transparent;
 }
@@ -455,6 +697,9 @@ function scrollToAnchor(href) {
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   align-items: center;
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
 }
 
 .highlight:nth-child(even) {
@@ -483,9 +728,10 @@ function scrollToAnchor(href) {
 .img-placeholder {
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: var(--color-background-mute);
+  object-fit: cover;
+  display: block;
   border-radius: 10px;
-  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 40px rgba(22, 26, 29, 0.08);
 }
 
 .micro {
@@ -594,7 +840,11 @@ function scrollToAnchor(href) {
 }
 
 .stat-card {
+  width: 100%;
   aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
 }
 
 .bap-list {
@@ -615,6 +865,9 @@ function scrollToAnchor(href) {
   min-width: 80px;
   flex-shrink: 0;
   aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
 }
 
 .bap-item-title {
@@ -645,6 +898,10 @@ function scrollToAnchor(href) {
   gap: 18px;
   align-items: center;
   z-index: 99;
+  box-shadow: 0 24px 48px rgba(22, 26, 29, 0.08);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
 }
 
 .usp-title {
@@ -659,7 +916,11 @@ function scrollToAnchor(href) {
 }
 
 .usp-media {
+  width: 100%;
   aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
 }
 
 .products {
@@ -677,10 +938,17 @@ function scrollToAnchor(href) {
 
 .product-card {
   padding: 10px;
+  transition:
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.38s ease;
 }
 
 .product-image {
+  width: 100%;
   aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
 }
 
 .product-title {
@@ -718,6 +986,10 @@ function scrollToAnchor(href) {
   cursor: pointer;
   font-size: 22px;
   line-height: 0;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
 }
 
 .carousel-track {
@@ -733,12 +1005,19 @@ function scrollToAnchor(href) {
   background: #ffffff;
   cursor: pointer;
   opacity: 0.75;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 18px 36px rgba(22, 26, 29, 0.05);
+  transition:
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.34s ease,
+    box-shadow 0.34s ease,
+    border-color 0.34s ease;
 }
 
 .testimonial.active {
   opacity: 1;
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--color-accent) 24%, var(--color-border));
+  box-shadow: 0 24px 44px rgba(230, 27, 46, 0.12);
 }
 
 .stars {
@@ -764,8 +1043,9 @@ function scrollToAnchor(href) {
   width: 26px;
   height: 26px;
   border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: var(--color-background-mute);
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
 }
 
 .person-name {
@@ -848,7 +1128,9 @@ function scrollToAnchor(href) {
   align-items: center;
   justify-content: center;
   color: var(--vt-c-white);
-  transition: background 0.15s ease;
+  transition:
+    background 0.28s ease,
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .social-dot:hover {
@@ -892,6 +1174,10 @@ function scrollToAnchor(href) {
   font-weight: 700;
   cursor: pointer;
   user-select: none;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
 .btn-primary {
@@ -910,6 +1196,44 @@ function scrollToAnchor(href) {
 
 .btn-dark:hover {
   filter: brightness(1.05);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .nav-cta:hover,
+  .btn:hover,
+  .carousel-arrow:hover,
+  .social-dot:hover {
+    transform: translateY(-2px);
+  }
+
+  .nav-cta:hover,
+  .btn:hover,
+  .carousel-arrow:hover {
+    box-shadow: 0 14px 28px rgba(22, 26, 29, 0.12);
+  }
+
+  .highlight:hover,
+  .usp-card:hover,
+  .product-card:hover,
+  .testimonial:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 48px rgba(22, 26, 29, 0.1);
+  }
+
+  .testimonial:hover {
+    opacity: 1;
+    border-color: color-mix(in srgb, var(--color-accent) 18%, var(--color-border));
+  }
+
+  .social-dot:hover {
+    background: color-mix(in srgb, var(--vt-c-white) 35%, transparent);
+  }
 }
 
 /* ── Tablet (≤ 900px) ── */
@@ -976,7 +1300,8 @@ function scrollToAnchor(href) {
   }
 
   .hero-subtitle {
-    font-size: 20px;
+    font-size: 22px;
+    line-height: 1.25;
   }
 
   .hero-body {
