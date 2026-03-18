@@ -8,6 +8,7 @@ import heroWaveSrc from './assets/wave-red.svg?url'
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Research', href: '#research' },
+  { label: 'Roadmap', href: '#roadmap' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -268,6 +269,52 @@ onMounted(() => {
           stagger: 0.08,
         },
         '-=0.26'
+      )
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '.roadmap',
+          start: 'top 82%',
+          once: true,
+        },
+      })
+      .from('.roadmap-kicker, .roadmap .section-title, .roadmap-intro', {
+        ...textReveal,
+        stagger: 0.1,
+      })
+      .from(
+        '.roadmap-line-fill',
+        {
+          scaleY: 0,
+          transformOrigin: 'top center',
+          duration: 1,
+          ease: 'power2.out',
+        },
+        '-=0.16'
+      )
+      .from(
+        '.roadmap-step',
+        {
+          ...cardReveal,
+          y: 26,
+          scale: 0.99,
+          duration: 0.76,
+          stagger: 0.08,
+        },
+        '-=0.74'
+      )
+      .from(
+        '.roadmap-dot',
+        {
+          autoAlpha: 0,
+          scale: 0.6,
+          duration: 0.46,
+          ease: 'back.out(2)',
+          stagger: 0.08,
+          clearProps: clearRevealProps,
+        },
+        '-=0.66'
       )
 
     gsap
@@ -558,6 +605,73 @@ function scrollToAnchor(href) {
         </div>
       </section>
 
+      <section class="roadmap" id="roadmap" aria-label="Roadmap">
+        <div class="roadmap-inner">
+          <div class="roadmap-header">
+            <p class="roadmap-kicker">In process</p>
+            <h3 class="section-title">Roadmap to launch</h3>
+            <p class="roadmap-intro">
+              End-of-May 2026 is the public launch target. Each phase is sequenced to keep pilot feedback, stability, and clinical safety in balance.
+            </p>
+          </div>
+
+          <div class="roadmap-flow">
+            <div class="roadmap-axis" aria-hidden="true">
+              <span class="roadmap-line"></span>
+              <span class="roadmap-line-fill"></span>
+            </div>
+
+            <ol class="roadmap-steps">
+              <li class="roadmap-step phase-now">
+                <span class="roadmap-dot">01</span>
+                <article class="roadmap-card">
+                  <p class="roadmap-phase">Now | Mar 18 - Apr 7</p>
+                  <h4 class="roadmap-title">Pilot onboarding and scope lock</h4>
+                  <ul class="roadmap-list">
+                    <li>Confirm pilot testers and align use cases</li>
+                    <li>Lock the MVP feature scope and priorities</li>
+                    <li>Map baseline workflow pain points</li>
+                  </ul>
+                  <span class="roadmap-status">Committed</span>
+                </article>
+              </li>
+
+              <li class="roadmap-step phase-next">
+                <span class="roadmap-dot">02</span>
+                <article class="roadmap-card">
+                  <p class="roadmap-phase">Next | Apr 8 - May 5</p>
+                  <h4 class="roadmap-title">Core build and weekly validation</h4>
+                  <ul class="roadmap-list">
+                    <li>Ship interpretation, summary, and referral modules</li>
+                    <li>Run weekly pilot calls and iterate quickly</li>
+                    <li>Track quality and consistency metrics</li>
+                  </ul>
+                  <span class="roadmap-status">In progress</span>
+                </article>
+              </li>
+
+              <li class="roadmap-step phase-launch">
+                <span class="roadmap-dot">03</span>
+                <article class="roadmap-card">
+                  <p class="roadmap-phase">Launch window | May 6 - May 31</p>
+                  <h4 class="roadmap-title">Stabilization and public release</h4>
+                  <ul class="roadmap-list">
+                    <li>Fix critical bugs and complete onboarding flow</li>
+                    <li>Prepare deployment, docs, and support material</li>
+                    <li>Go live by end of May 2026</li>
+                  </ul>
+                  <span class="roadmap-status">Planned</span>
+                </article>
+              </li>
+            </ol>
+          </div>
+
+          <p class="roadmap-note">
+            Launch target: end of May 2026. Final week is reserved for stabilization, not new features.
+          </p>
+        </div>
+      </section>
+
       <section class="usp" aria-label="Value proposition">
         <div class="usp-card">
           <div>
@@ -708,6 +822,7 @@ function scrollToAnchor(href) {
               <div class="footer-heading">Product</div>
               <a class="footer-link" href="#research" @click.prevent="scrollToAnchor('#research')">Research</a>
               <a class="footer-link" href="#about" @click.prevent="scrollToAnchor('#about')">About</a>
+              <a class="footer-link" href="#roadmap" @click.prevent="scrollToAnchor('#roadmap')">Roadmap</a>
             </div>
             <div class="footer-col">
               <div class="footer-heading">Resources</div>
@@ -1432,6 +1547,222 @@ function scrollToAnchor(href) {
   opacity: 0.7;
 }
 
+.roadmap {
+  padding: 20px 18px 60px;
+}
+
+.roadmap-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
+  border-radius: 26px;
+  padding: 32px 28px;
+  background: #ffffff;
+  box-shadow: 0 28px 60px rgba(22, 26, 29, 0.08);
+}
+
+.roadmap-header {
+  max-width: 64ch;
+}
+
+.roadmap-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 56%, transparent);
+}
+
+.roadmap-intro {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+}
+
+.roadmap-flow {
+  margin-top: 24px;
+  position: relative;
+}
+
+.roadmap-axis {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.roadmap-line,
+.roadmap-line-fill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+}
+
+.roadmap-line {
+  background: color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.roadmap-line-fill {
+  background: linear-gradient(180deg, var(--color-accent) 0%, #d12541 48%, #6f1233 100%);
+  transform-origin: top center;
+}
+
+.roadmap-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 76px;
+  min-height: 172px;
+  align-items: start;
+}
+
+.roadmap-step:nth-child(odd) .roadmap-card {
+  justify-self: end;
+}
+
+.roadmap-step:nth-child(even) .roadmap-card {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.roadmap-dot {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  width: 52px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  border: 2px solid var(--color-accent);
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  box-shadow: 0 12px 28px rgba(22, 26, 29, 0.14);
+}
+
+.roadmap-card {
+  width: min(100%, 440px);
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  padding: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 34px rgba(22, 26, 29, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-accent);
+}
+
+.phase-next .roadmap-card::before {
+  background: #1d4ed8;
+}
+
+.phase-launch .roadmap-card::before {
+  background: #047857;
+}
+
+.roadmap-phase {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
+.roadmap-title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.roadmap-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--color-text) 75%, transparent);
+}
+
+.roadmap-status {
+  justify-self: start;
+  margin-top: 2px;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.phase-now .roadmap-status {
+  background: rgba(230, 27, 46, 0.1);
+  color: #b31123;
+}
+
+.phase-now .roadmap-dot {
+  border-color: color-mix(in srgb, var(--color-accent) 80%, #ffffff);
+  color: #b31123;
+}
+
+.phase-next .roadmap-status {
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+}
+
+.phase-next .roadmap-dot {
+  border-color: #1d4ed8;
+  color: #1d4ed8;
+}
+
+.phase-launch .roadmap-status {
+  background: rgba(16, 185, 129, 0.14);
+  color: #047857;
+}
+
+.phase-launch .roadmap-dot {
+  border-color: #047857;
+  color: #047857;
+}
+
+.roadmap-note {
+  margin-top: 18px;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 68%, transparent);
+}
+
 .contact-section {
   padding: 60px 18px 80px;
 }
@@ -1793,6 +2124,38 @@ function scrollToAnchor(href) {
     grid-template-columns: 1fr;
   }
 
+  .roadmap-inner {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .roadmap-line,
+  .roadmap-line-fill {
+    left: 26px;
+    transform: none;
+  }
+
+  .roadmap-step {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-left: 64px;
+  }
+
+  .roadmap-step .roadmap-card,
+  .roadmap-step:nth-child(odd) .roadmap-card,
+  .roadmap-step:nth-child(even) .roadmap-card {
+    width: 100%;
+    grid-column: 1;
+    justify-self: stretch;
+  }
+
+  .roadmap-dot {
+    left: 26px;
+    top: 30px;
+    width: 46px;
+    height: 46px;
+  }
+
   .contact-inner {
     grid-template-columns: 1fr;
   }
@@ -1871,6 +2234,47 @@ function scrollToAnchor(href) {
 
   .usp-card {
     grid-template-columns: 1fr;
+  }
+
+  .roadmap {
+    padding: 14px 14px 36px;
+  }
+
+  .roadmap-inner {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .roadmap-kicker {
+    font-size: 10px;
+  }
+
+  .roadmap-intro {
+    font-size: 13px;
+  }
+
+  .roadmap-line,
+  .roadmap-line-fill {
+    left: 20px;
+  }
+
+  .roadmap-step {
+    padding-left: 52px;
+  }
+
+  .roadmap-dot {
+    left: 20px;
+    width: 38px;
+    height: 38px;
+    font-size: 10px;
+  }
+
+  .roadmap-title {
+    font-size: 15px;
+  }
+
+  .roadmap-list {
+    font-size: 11px;
   }
 
   .footer-inner {
