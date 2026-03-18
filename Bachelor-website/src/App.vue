@@ -96,14 +96,64 @@ const contactForm = reactive({
   message: '',
 })
 const formStatus = ref('idle') // 'idle' | 'submitting' | 'success' | 'error'
+const BASE_MINUTES_SAVED_PER_CASE = 7
+
+const impactInputs = reactive({
+  audiogramsPerWeek: 45,
+  teamSize: 3,
+})
+
+function toPositiveNumber(value, fallback = 0) {
+  const numericValue = Number(value)
+  if (!Number.isFinite(numericValue) || numericValue < 0) {
+    return fallback
+  }
+  return numericValue
+}
+
+const monthlyHoursSaved = computed(() => {
+  const casesPerWeek = toPositiveNumber(impactInputs.audiogramsPerWeek)
+  return (casesPerWeek * BASE_MINUTES_SAVED_PER_CASE * 4.3) / 60
+})
+
+const annualHoursSaved = computed(() => monthlyHoursSaved.value * 12)
+
+const monthlyHoursPerClinician = computed(() => {
+  const teamSize = Math.max(1, Math.round(toPositiveNumber(impactInputs.teamSize, 1)))
+  return monthlyHoursSaved.value / teamSize
+})
+
+function formatImpactHours(value) {
+  const normalizedValue = Math.max(0, Number(value) || 0)
+  const maximumFractionDigits = normalizedValue >= 100 ? 0 : 1
+  return normalizedValue.toLocaleString('en-US', {
+    maximumFractionDigits,
+    minimumFractionDigits: 0,
+  })
+}
+
+const impactMonthlyHoursLabel = computed(() => formatImpactHours(monthlyHoursSaved.value))
+const impactAnnualHoursLabel = computed(() => formatImpactHours(annualHoursSaved.value))
+const impactPerClinicianLabel = computed(() => formatImpactHours(monthlyHoursPerClinician.value))
 
 async function submitContactForm() {
   formStatus.value = 'submitting'
   try {
+    const payload = {
+      ...contactForm,
+      impact: {
+        audiogramsPerWeek: Math.round(toPositiveNumber(impactInputs.audiogramsPerWeek)),
+        minutesSavedPerCase: BASE_MINUTES_SAVED_PER_CASE,
+        teamSize: Math.max(1, Math.round(toPositiveNumber(impactInputs.teamSize, 1))),
+        estimatedMonthlyHoursSaved: Number(monthlyHoursSaved.value.toFixed(1)),
+        estimatedAnnualHoursSaved: Number(annualHoursSaved.value.toFixed(1)),
+      },
+    }
+
     const res = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(contactForm),
+      body: JSON.stringify(payload),
     })
     if (res.ok) {
       formStatus.value = 'success'
@@ -315,6 +365,39 @@ onMounted(() => {
           clearProps: clearRevealProps,
         },
         '-=0.66'
+      )
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '.impact',
+          start: 'top 84%',
+          once: true,
+        },
+      })
+      .from('.impact-kicker, .impact .section-title, .impact-body, .impact-metric', {
+        ...textReveal,
+        stagger: 0.08,
+      })
+      .from(
+        '.impact-panel',
+        {
+          ...cardReveal,
+          y: 22,
+          scale: 0.99,
+          duration: 0.82,
+        },
+        '-=0.26'
+      )
+      .from(
+        '.impact-result-card',
+        {
+          ...textReveal,
+          y: 14,
+          duration: 0.62,
+          stagger: 0.08,
+        },
+        '-=0.46'
       )
 
     gsap
@@ -731,6 +814,77 @@ function scrollToAnchor(href) {
           <button class="carousel-arrow" type="button" @click="nextTestimonial" aria-label="Next">
             ›
           </button>
+        </div>
+      </section>
+
+      <section class="impact" aria-label="Impact calculator">
+        <div class="impact-inner">
+          <div class="impact-copy">
+            <p class="impact-kicker">Pilot estimator</p>
+            <h3 class="section-title">Estimate your monthly time gain</h3>
+            <p class="impact-body">
+              Use your current workflow numbers to estimate how much clinician time Sonaris can unlock each month,
+              based on a conservative 7-minute benchmark per interpretation.
+            </p>
+
+            <div class="impact-metric" aria-live="polite">
+              <p class="impact-metric-value">{{ impactMonthlyHoursLabel }}</p>
+              <p class="impact-metric-label">hours saved per month</p>
+            </div>
+
+            <a class="btn btn-primary impact-cta" href="#contact" @click.prevent="scrollToAnchor('#contact')">
+              Get my pilot plan
+            </a>
+          </div>
+
+          <div class="impact-panel">
+            <div class="impact-fields">
+              <div class="impact-field impact-field-cases">
+                <label class="impact-label" for="impact-cases">Audiograms interpreted per week</label>
+                <input
+                  id="impact-cases"
+                  class="input"
+                  type="number"
+                  min="0"
+                  step="1"
+                  inputmode="numeric"
+                  v-model.number="impactInputs.audiogramsPerWeek"
+                />
+              </div>
+
+              <div class="impact-field impact-field-team">
+                <label class="impact-label" for="impact-team">Team size</label>
+                <input
+                  id="impact-team"
+                  class="input"
+                  type="number"
+                  min="1"
+                  step="1"
+                  inputmode="numeric"
+                  v-model.number="impactInputs.teamSize"
+                />
+              </div>
+            </div>
+
+            <p class="impact-assumption">
+              <strong>Assumption:</strong> 7 minutes saved per interpretation.
+            </p>
+
+            <div class="impact-results" aria-live="polite">
+              <article class="impact-result-card">
+                <p class="impact-result-value">{{ impactAnnualHoursLabel }}</p>
+                <p class="impact-result-label">hours saved per year</p>
+              </article>
+              <article class="impact-result-card">
+                <p class="impact-result-value">{{ impactPerClinicianLabel }}</p>
+                <p class="impact-result-label">hours per clinician each month</p>
+              </article>
+            </div>
+
+            <p class="impact-note">
+              Formula: (audiograms per week x 7 minutes x 4.3) / 60. Estimates vary by case complexity.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -1763,6 +1917,174 @@ function scrollToAnchor(href) {
   color: color-mix(in srgb, var(--color-text) 68%, transparent);
 }
 
+.impact {
+  padding: 14px 18px 70px;
+}
+
+.impact-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
+  border-radius: 24px;
+  padding: 28px;
+  background: #f8f8f7;
+  box-shadow: 0 22px 46px rgba(22, 26, 29, 0.08);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.95fr) minmax(360px, 1.25fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.impact-copy {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.impact-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+}
+
+.impact-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.68;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  max-width: 40ch;
+}
+
+.impact-metric {
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, var(--color-border));
+  border-radius: 18px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 16px 30px rgba(230, 27, 46, 0.08);
+}
+
+.impact-metric-value {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.impact-metric-label {
+  margin: 8px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+}
+
+.impact-cta {
+  width: min(100%, 460px);
+  min-height: 44px;
+}
+
+.impact-panel {
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 18px;
+  display: grid;
+  gap: 16px;
+  box-shadow: 0 12px 26px rgba(22, 26, 29, 0.05);
+}
+
+.impact-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+  gap: 12px;
+}
+
+.impact-field {
+  display: grid;
+  gap: 6px;
+}
+
+.impact-assumption {
+  margin: -2px 0 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-text) 64%, transparent);
+}
+
+.impact-assumption strong {
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-text) 84%, transparent);
+}
+
+.impact-label {
+  display: block;
+  min-height: 0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
+.impact-field .input {
+  height: 44px;
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--color-text) 14%, var(--color-border));
+  background: #fcfcfc;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.impact-field .input:focus {
+  border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+.impact-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.impact-result-card {
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, var(--color-border));
+  border-radius: 12px;
+  background: #fafafa;
+  padding: 14px;
+}
+
+.impact-result-value {
+  margin: 0;
+  font-size: clamp(28px, 3.5vw, 38px);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.impact-result-label {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.impact-note {
+  margin: 2px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--color-text) 14%, transparent);
+  font-size: 11px;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-text) 64%, transparent);
+}
+
 .contact-section {
   padding: 60px 18px 80px;
 }
@@ -2156,6 +2478,25 @@ function scrollToAnchor(href) {
     height: 46px;
   }
 
+  .impact-inner {
+    grid-template-columns: 1fr;
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  .impact-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-field-cases,
+  .impact-field-team {
+    grid-column: auto;
+  }
+
+  .impact-results {
+    grid-template-columns: 1fr;
+  }
+
   .contact-inner {
     grid-template-columns: 1fr;
   }
@@ -2275,6 +2616,36 @@ function scrollToAnchor(href) {
 
   .roadmap-list {
     font-size: 11px;
+  }
+
+  .impact {
+    padding: 12px 14px 34px;
+  }
+
+  .impact-inner {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+
+  .impact-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .impact-field-cases,
+  .impact-field-team {
+    grid-column: auto;
+  }
+
+  .impact-panel {
+    padding: 14px;
+  }
+
+  .impact-metric-value {
+    font-size: 38px;
+  }
+
+  .impact-result-value {
+    font-size: 26px;
   }
 
   .footer-inner {
