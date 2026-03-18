@@ -1005,8 +1005,35 @@ function scrollToAnchor(href) {
 
 <style scoped>
 .page {
+  /* Design tokens: update these first for global style changes */
+  --layout-max-width: 1080px;
+  --layout-gutter: 18px;
+  --radius-media: 10px;
+  --radius-card: 12px;
+  --radius-panel: 18px;
+  --radius-shell: 24px;
+  --radius-feature: 14px;
+  --shadow-header: 0 8px 24px rgba(22, 26, 29, 0.06);
+  --shadow-soft: 0 18px 36px rgba(22, 26, 29, 0.05);
+  --shadow-lift: 0 24px 48px rgba(22, 26, 29, 0.08);
+  --shadow-shell: 0 22px 46px rgba(22, 26, 29, 0.08);
   color: var(--color-text);
   overflow-x: hidden;
+}
+
+/* Shared wrappers for section content */
+.hero-inner,
+.highlights,
+.micro,
+.usp-card,
+.products,
+.verdict,
+.roadmap-inner,
+.impact-inner,
+.contact-inner,
+.footer-inner {
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
 }
 
 .topbar {
@@ -1017,8 +1044,8 @@ function scrollToAnchor(href) {
   z-index: 10;
   background: #ffffff;
   border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
-  box-shadow: 0 8px 24px rgba(22, 26, 29, 0.06);
-  padding: 14px 18px;
+  box-shadow: var(--shadow-header);
+  padding: 14px var(--layout-gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1232,7 +1259,7 @@ function scrollToAnchor(href) {
 
 .hero {
   position: relative;
-  padding: 120px 18px 80px;
+  padding: 120px var(--layout-gutter) 80px;
 }
 
 .hero-wave {
@@ -1255,8 +1282,6 @@ function scrollToAnchor(href) {
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 1080px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 28px;
@@ -1297,7 +1322,7 @@ function scrollToAnchor(href) {
 
 
 .tagline {
-  padding: 60px 18px 34px;
+  padding: 60px var(--layout-gutter) 34px;
   text-align: center;
 }
 
@@ -1328,9 +1353,7 @@ function scrollToAnchor(href) {
 }
 
 .highlights {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 18px;
+  padding: 18px var(--layout-gutter);
   display: grid;
   gap: 26px;
 }
@@ -1373,14 +1396,12 @@ function scrollToAnchor(href) {
   aspect-ratio: 16 / 10;
   object-fit: cover;
   display: block;
-  border-radius: 10px;
+  border-radius: var(--radius-media);
   box-shadow: 0 20px 40px rgba(22, 26, 29, 0.08);
 }
 
 .micro {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 18px;
+  padding: 18px var(--layout-gutter);
 }
 
 .micro-grid {
@@ -1417,7 +1438,7 @@ function scrollToAnchor(href) {
 .bap {
   position: relative;
   overflow: hidden;
-  padding: 40px 18px 26px;
+  padding: 40px var(--layout-gutter) 26px;
   background-size: 900px auto;
 }
 .main {
@@ -1441,7 +1462,7 @@ function scrollToAnchor(href) {
 }
 
 .bap-bottom {
-  max-width: 1080px;
+  max-width: var(--layout-max-width);
   margin: 22px auto 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1486,7 +1507,7 @@ function scrollToAnchor(href) {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radius-media);
   display: block;
 }
 
@@ -1525,23 +1546,21 @@ function scrollToAnchor(href) {
 }
 
 .usp {
-  padding: 18px;
+  padding: 18px var(--layout-gutter);
   z-index: 99;
 }
 
 .usp-card {
-  max-width: 1080px;
-  margin: 0 auto;
   background: #c0c0c0;
   color: #ffffff;
-  border-radius: 14px;
+  border-radius: var(--radius-feature);
   padding: 18px;
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 18px;
   align-items: center;
   z-index: 99;
-  box-shadow: 0 24px 48px rgba(22, 26, 29, 0.08);
+  box-shadow: var(--shadow-lift);
   transition:
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.4s ease;
@@ -1562,14 +1581,12 @@ function scrollToAnchor(href) {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radius-media);
   display: block;
 }
 
 .products {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 24px 18px 14px;
+  padding: 24px var(--layout-gutter) 14px;
 }
 
 .product-grid {
@@ -1590,7 +1607,7 @@ function scrollToAnchor(href) {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radius-media);
   display: block;
 }
 
@@ -1607,9 +1624,7 @@ function scrollToAnchor(href) {
 }
 
 .verdict {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 16px 18px 28px;
+  padding: 16px var(--layout-gutter) 28px;
 }
 
 .carousel {
@@ -1643,12 +1658,12 @@ function scrollToAnchor(href) {
 
 .testimonial {
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   padding: 14px;
   background: #ffffff;
   cursor: pointer;
   opacity: 0.75;
-  box-shadow: 0 18px 36px rgba(22, 26, 29, 0.05);
+  box-shadow: var(--shadow-soft);
   transition:
     transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.34s ease,
@@ -1701,18 +1716,17 @@ function scrollToAnchor(href) {
   opacity: 0.7;
 }
 
+/* Roadmap section */
 .roadmap {
-  padding: 20px 18px 60px;
+  padding: 20px var(--layout-gutter) 60px;
 }
 
 .roadmap-inner {
-  max-width: 1080px;
-  margin: 0 auto;
   border: 1px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
-  border-radius: 26px;
+  border-radius: var(--radius-shell);
   padding: 32px 28px;
   background: #ffffff;
-  box-shadow: 0 28px 60px rgba(22, 26, 29, 0.08);
+  box-shadow: var(--shadow-shell);
 }
 
 .roadmap-header {
@@ -1818,7 +1832,7 @@ function scrollToAnchor(href) {
   display: grid;
   align-content: start;
   gap: 10px;
-  border-radius: 18px;
+  border-radius: var(--radius-panel);
   border: 1px solid var(--color-border);
   padding: 18px;
   background: #ffffff;
@@ -1917,18 +1931,17 @@ function scrollToAnchor(href) {
   color: color-mix(in srgb, var(--color-text) 68%, transparent);
 }
 
+/* Impact calculator section */
 .impact {
-  padding: 14px 18px 70px;
+  padding: 14px var(--layout-gutter) 70px;
 }
 
 .impact-inner {
-  max-width: 1080px;
-  margin: 0 auto;
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
-  border-radius: 24px;
+  border-radius: var(--radius-shell);
   padding: 28px;
   background: #f8f8f7;
-  box-shadow: 0 22px 46px rgba(22, 26, 29, 0.08);
+  box-shadow: var(--shadow-shell);
   display: grid;
   grid-template-columns: minmax(260px, 0.95fr) minmax(360px, 1.25fr);
   gap: 24px;
@@ -1960,7 +1973,7 @@ function scrollToAnchor(href) {
 
 .impact-metric {
   border: 1px solid color-mix(in srgb, var(--color-accent) 25%, var(--color-border));
-  border-radius: 18px;
+  border-radius: var(--radius-panel);
   padding: 20px;
   background: #ffffff;
   box-shadow: 0 16px 30px rgba(230, 27, 46, 0.08);
@@ -1989,7 +2002,7 @@ function scrollToAnchor(href) {
 
 .impact-panel {
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
-  border-radius: 18px;
+  border-radius: var(--radius-panel);
   background: #ffffff;
   padding: 18px;
   display: grid;
@@ -2034,7 +2047,7 @@ function scrollToAnchor(href) {
 
 .impact-field .input {
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-media);
   border-color: color-mix(in srgb, var(--color-text) 14%, var(--color-border));
   background: #fcfcfc;
   font-weight: 600;
@@ -2054,7 +2067,7 @@ function scrollToAnchor(href) {
 
 .impact-result-card {
   border: 1px solid color-mix(in srgb, var(--color-text) 12%, var(--color-border));
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: #fafafa;
   padding: 14px;
 }
@@ -2085,13 +2098,12 @@ function scrollToAnchor(href) {
   color: color-mix(in srgb, var(--color-text) 64%, transparent);
 }
 
+/* Contact section */
 .contact-section {
-  padding: 60px 18px 80px;
+  padding: 60px var(--layout-gutter) 80px;
 }
 
 .contact-inner {
-  max-width: 1080px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 60px;
@@ -2164,7 +2176,7 @@ function scrollToAnchor(href) {
 
 .form-success {
   padding: 24px;
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--color-accent) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-accent) 24%, transparent);
   font-size: 14px;
@@ -2199,8 +2211,6 @@ function scrollToAnchor(href) {
 }
 
 .footer-inner {
-  max-width: 1080px;
-  margin: 0 auto;
   padding: 60px 24px 24px;
   z-index: 1000;
 }
