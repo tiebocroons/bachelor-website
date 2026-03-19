@@ -5,6 +5,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import heroModelSrc from './assets/model.glb?url'
 import heroWaveSrc from './assets/wave-red.svg?url'
 
+const assetBaseUrl = import.meta.env.BASE_URL || '/'
+
+function publicAsset(path) {
+  return `${assetBaseUrl}${String(path).replace(/^\/+/, '')}`
+}
+
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Research', href: '#research' },
@@ -16,12 +22,12 @@ const highlightCards = [
   {
     title: 'What is Sonaris?',
     body: 'Sonaris is a digital application that supports healthcare professionals in analyzing and interpreting audiograms. By automatically structuring complex measurement data and translating it into clear, evidence-based classifications, Sonaris helps teams reach consistent and transparent insights faster. The tool acts as decision support: it strengthens clinical judgment without replacing it.',
-    image: '/medel_kindergarten_raw_danielzangerl%20(91%20von%20091)%20copy.webp',
+    image: publicAsset('medel-kindergarten-91-copy.webp'),
   },
   {
     title: 'Why Sonaris matters',
     body: 'This is especially relevant for audiologists, ENT specialists, and other hearing care professionals who face increasing time pressure, growing volumes of data, and the need for consistent interpretation. Sonaris supports more efficient workflows, reduces variation in interpretation, and contributes to high-quality, ethically responsible care.',
-    image: '/vibrant_familie_danielzangerl%20(1%20von%20001)%20als%20Smartobjekt-1.webp',
+    image: publicAsset('vibrant-familie-1.webp'),
   },
 ]
 
@@ -30,25 +36,25 @@ const products = [
     id: 1,
     title: 'Interpretation support',
     body: 'Turn raw audiogram data into structured, clinically useful insights in less time.',
-    image: '/Portrait%20of%20a%20lady%20with%20a%20cochlear%20implant..jpg',
+    image: publicAsset('portrait-cochlear-implant.jpg'),
   },
   {
     id: 2,
     title: 'Consistent reporting',
     body: 'Generate a clear summary format for records, referrals, and multidisciplinary review.',
-    image: '/_24A0522.jpg',
+    image: publicAsset('clinic-24a0522.jpg'),
   },
   {
     id: 3,
     title: 'Referral guidance',
     body: 'Highlight when further evaluation for hearing aids or cochlear implants should be considered.',
-    image: '/medel_kindergarten_raw_danielzangerl%20(12%20von%20012).webp',
+    image: publicAsset('medel-kindergarten-12.webp'),
   },
   {
     id: 4,
     title: 'Workflow efficiency',
     body: 'Reduce repetitive interpretation steps so more attention stays with the patient.',
-    image: '/kopf+AP.jpg',
+    image: publicAsset('kopf-ap.jpg'),
   },
 ]
 
@@ -60,7 +66,7 @@ const testimonials = [
       '"Strong impact in a single day: clear insights, less noise, and immediately useful in practice."',
     name: 'Dr. Sophie van den Berg',
     role: 'ENT specialist',
-    avatar: '/_24A0522.jpg',
+    avatar: publicAsset('clinic-24a0522.jpg'),
   },
   {
     id: 2,
@@ -69,7 +75,7 @@ const testimonials = [
       '"The combination of interpretation and reporting makes referrals faster and more consistent."',
     name: 'A. de Vries',
     role: 'Hearing care specialist',
-    avatar: '/Portrait%20of%20a%20lady%20with%20a%20cochlear%20implant..jpg',
+    avatar: publicAsset('portrait-cochlear-implant.jpg'),
   },
   {
     id: 3,
@@ -78,9 +84,16 @@ const testimonials = [
       '"Fewer administrative steps, more focus on the patient. Exactly what we need."',
     name: 'M. Jansen',
     role: 'Healthcare professional',
-    avatar: '/medel_familie_logopaedie_2014_danielzangerl_raw%20(68%20von%20068).webp',
+    avatar: publicAsset('medel-familie-68.webp'),
   },
 ]
+
+const logoImageSrc = publicAsset('logo_sonaris_red.svg')
+const statImageSrc = publicAsset('clinic-24a0522.jpg')
+const bapFastImageSrc = publicAsset('kopf-ap.jpg')
+const bapSummaryImageSrc = publicAsset('medel-kindergarten-17-copy.webp')
+const bapOutputImageSrc = publicAsset('medel-kindergarten-24-copy.webp')
+const uspImageSrc = publicAsset('vibrant-familie-1.webp')
 
 // ── Contact form ─────────────────────────────────────────────────────────────
 // 1. Go to https://formspree.io and create a free account.
@@ -521,7 +534,7 @@ function scrollToAnchor(href) {
   <div ref="pageRef" class="page" id="home">
     <header class="topbar" :class="{ 'menu-open': isMobileMenuOpen }">
       <a class="nav-logo" href="#home" @click.prevent="scrollToAnchor('#home')">
-        <img src="/logo_sonaris_red.svg" alt="Sonaris" class="nav-logo-img" />
+        <img :src="logoImageSrc" alt="Sonaris" class="nav-logo-img" />
       </a>
 
       <button
@@ -653,12 +666,12 @@ function scrollToAnchor(href) {
                 <div class="stat-label">Of people who medically qualify for a cochlear implant are currently undertreated.</div>
               </div>
             </div>
-            <img src="/_24A0522.jpg" alt="Stat Image" class="stat-card" aria-hidden="true" />
+              <img :src="statImageSrc" alt="Stat Image" class="stat-card" aria-hidden="true" />
           </div>
 
           <div class="bap-list">
             <article class="bap-item">
-              <img src="/kopf+AP.jpg" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
+                <img :src="bapFastImageSrc" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Faster interpretation</h4>
                 <p class="bap-item-body">
@@ -667,7 +680,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <img src="/medel_kindergarten_raw_danielzangerl%20(17%20von%20017)%20copy.webp" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
+                <img :src="bapSummaryImageSrc" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Consistent summaries</h4>
                 <p class="bap-item-body">
@@ -676,7 +689,7 @@ function scrollToAnchor(href) {
               </div>
             </article>
             <article class="bap-item">
-              <img src="/medel_kindergarten_raw_danielzangerl%20(24%20von%20024)%20copy.webp" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
+                <img :src="bapOutputImageSrc" alt="Bap Item Image" class="bap-item-image" aria-hidden="true" />
               <div>
                 <h4 class="bap-item-title">Relevant output</h4>
                 <p class="bap-item-body">
@@ -764,7 +777,7 @@ function scrollToAnchor(href) {
             </p>
             <a class="btn btn-dark" href="#contact" @click.prevent="scrollToAnchor('#contact')">Read more</a>
           </div>
-          <img src="/vibrant_familie_danielzangerl%20(1%20von%20001)%20als%20Smartobjekt-1.webp" alt="USP Image" class="usp-media" aria-hidden="true" />
+          <img :src="uspImageSrc" alt="USP Image" class="usp-media" aria-hidden="true" />
         </div>
       </section>
 
@@ -952,7 +965,7 @@ function scrollToAnchor(href) {
         <div class="footer-top">
           <div class="footer-left">
             <a class="footer-logo-link" href="#home" @click.prevent="scrollToAnchor('#home')">
-              <img src="/logo_sonaris_red.svg" alt="Sonaris" class="footer-logo" />
+              <img :src="logoImageSrc" alt="Sonaris" class="footer-logo" />
             </a>
             <p class="footer-tagline">Audiogram interpretation for the modern healthcare professional.</p>
             <div class="footer-social" aria-label="Social links">
