@@ -660,7 +660,7 @@ function scrollToAnchor(href) {
                 <div class="stat-label">People worldwide are affected by disabling hearing loss.</div>
               </div>
               <div class="stat">
-                <div class="stat-value" data-count-to="90" data-decimals="0" data-suffix="%+">
+          x      <div class="stat-value" data-count-to="90" data-decimals="0" data-suffix="%+">
                   90%+
                 </div>
                 <div class="stat-label">Of people who medically qualify for a cochlear implant are currently undertreated.</div>
@@ -1953,7 +1953,6 @@ function scrollToAnchor(href) {
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
   border-radius: var(--radius-shell);
   padding: 28px;
-  background: #f8f8f7;
   box-shadow: var(--shadow-shell);
   display: grid;
   grid-template-columns: minmax(260px, 0.95fr) minmax(360px, 1.25fr);
@@ -2016,7 +2015,6 @@ function scrollToAnchor(href) {
 .impact-panel {
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
   border-radius: var(--radius-panel);
-  background: #ffffff;
   padding: 18px;
   display: grid;
   gap: 16px;
@@ -2065,6 +2063,7 @@ function scrollToAnchor(href) {
   background: #fcfcfc;
   font-weight: 600;
   font-size: 16px;
+  width: 9.375em;
 }
 
 .impact-field .input:focus {
@@ -2081,7 +2080,6 @@ function scrollToAnchor(href) {
 .impact-result-card {
   border: 1px solid color-mix(in srgb, var(--color-text) 12%, var(--color-border));
   border-radius: var(--radius-card);
-  background: #fafafa;
   padding: 14px;
 }
 
