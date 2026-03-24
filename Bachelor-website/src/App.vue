@@ -93,7 +93,6 @@ const statImageSrc = publicAsset('clinic-24a0522.jpg')
 const bapFastImageSrc = publicAsset('kopf-ap.jpg')
 const bapSummaryImageSrc = publicAsset('medel-kindergarten-17-copy.webp')
 const bapOutputImageSrc = publicAsset('medel-kindergarten-24-copy.webp')
-const uspImageSrc = publicAsset('vibrant-familie-1.webp')
 
 // ── Contact form ─────────────────────────────────────────────────────────────
 // 1. Go to https://formspree.io and create a free account.
@@ -113,7 +112,6 @@ const BASE_MINUTES_SAVED_PER_CASE = 7
 
 const impactInputs = reactive({
   audiogramsPerWeek: 45,
-  teamSize: 3,
 })
 
 function toPositiveNumber(value, fallback = 0) {
@@ -131,11 +129,6 @@ const monthlyHoursSaved = computed(() => {
 
 const annualHoursSaved = computed(() => monthlyHoursSaved.value * 12)
 
-const monthlyHoursPerClinician = computed(() => {
-  const teamSize = Math.max(1, Math.round(toPositiveNumber(impactInputs.teamSize, 1)))
-  return monthlyHoursSaved.value / teamSize
-})
-
 function formatImpactHours(value) {
   const normalizedValue = Math.max(0, Number(value) || 0)
   const maximumFractionDigits = normalizedValue >= 100 ? 0 : 1
@@ -147,7 +140,6 @@ function formatImpactHours(value) {
 
 const impactMonthlyHoursLabel = computed(() => formatImpactHours(monthlyHoursSaved.value))
 const impactAnnualHoursLabel = computed(() => formatImpactHours(annualHoursSaved.value))
-const impactPerClinicianLabel = computed(() => formatImpactHours(monthlyHoursPerClinician.value))
 
 async function submitContactForm() {
   formStatus.value = 'submitting'
@@ -157,7 +149,7 @@ async function submitContactForm() {
       impact: {
         audiogramsPerWeek: Math.round(toPositiveNumber(impactInputs.audiogramsPerWeek)),
         minutesSavedPerCase: BASE_MINUTES_SAVED_PER_CASE,
-        teamSize: Math.max(1, Math.round(toPositiveNumber(impactInputs.teamSize, 1))),
+        teamSize: 1,
         estimatedMonthlyHoursSaved: Number(monthlyHoursSaved.value.toFixed(1)),
         estimatedAnnualHoursSaved: Number(annualHoursSaved.value.toFixed(1)),
       },
@@ -281,15 +273,6 @@ onMounted(() => {
       scrollTrigger: {
         trigger: '.bap-list',
         start: 'top 84%',
-        once: true,
-      },
-    })
-
-    gsap.from('.usp-card', {
-      ...cardReveal,
-      scrollTrigger: {
-        trigger: '.usp-card',
-        start: 'top 82%',
         once: true,
       },
     })
@@ -601,10 +584,10 @@ function scrollToAnchor(href) {
         <div class="hero-inner">
           <div class="hero-copy">
             <h1 class="hero-subtitle">
-              Smarter hearing test interpretation for choosing between hearing aids and cochlear implants
+              Turn complex audiograms into clear treatment decisions
             </h1>
             <p class="hero-body">
-              Sonaris analyzes audiogram results and translates them into clear recommendations, helping healthcare professionals decide more quickly and confidently which solution best fits each patient.
+              Sonaris transforms raw hearing test data into structured, evidence-based guidance so clinicians can quickly compare hearing aid and cochlear implant pathways. The result is faster, more consistent decisions and more time for patient care.
             </p>
 
             <div class="hero-actions">
@@ -634,6 +617,63 @@ function scrollToAnchor(href) {
         </div>
 
       </section>
+
+    <section class="impact" aria-label="Impact calculator">
+      <div class="impact-inner">
+        <div class="impact-copy">
+          <p class="impact-kicker">Pilot estimator</p>
+          <h3 class="section-title">Quick impact estimate</h3>
+          <p class="impact-body">
+            Move the slider to match your weekly audiogram volume. We use a conservative
+            7-minute benchmark per interpretation to estimate your monthly time savings.
+          </p>
+
+          <a class="btn btn-primary impact-cta" href="#contact" @click.prevent="scrollToAnchor('#contact')">
+            Get my pilot plan
+          </a>
+        </div>
+
+        <div class="impact-panel">
+          <div class="impact-fields">
+            <div class="impact-field impact-field-cases">
+              <label class="impact-label" for="impact-cases">Audiograms per week</label>
+              <div class="impact-slider-row">
+                <input
+                  id="impact-cases"
+                  class="impact-slider"
+                  type="range"
+                  min="0"
+                  max="200"
+                  step="1"
+                  v-model.number="impactInputs.audiogramsPerWeek"
+                />
+                <output class="impact-slider-value" for="impact-cases">
+                  {{ Math.round(toPositiveNumber(impactInputs.audiogramsPerWeek)) }}
+                </output>
+              </div>
+              <p class="impact-helper">Drag to set your weekly volume.</p>
+            </div>
+          </div>
+
+          <p class="impact-assumption">
+            Assumption: 7 minutes saved per interpretation.
+          </p>
+
+          <div class="impact-metric" aria-live="polite">
+            <p class="impact-metric-value">{{ impactMonthlyHoursLabel }}</p>
+            <p class="impact-metric-label">hours saved per month</p>
+          </div>
+
+          <div class="impact-results" aria-live="polite">
+            <article class="impact-result-card">
+              <p class="impact-result-value">{{ impactAnnualHoursLabel }}</p>
+              <p class="impact-result-label">hours saved per year</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <main class="main">
 
       <section class="highlights" id="about" aria-label="Highlights">
@@ -660,7 +700,7 @@ function scrollToAnchor(href) {
                 <div class="stat-label">People worldwide are affected by disabling hearing loss.</div>
               </div>
               <div class="stat">
-          x      <div class="stat-value" data-count-to="90" data-decimals="0" data-suffix="%+">
+              <div class="stat-value" data-count-to="90" data-decimals="0" data-suffix="%+">
                   90%+
                 </div>
                 <div class="stat-label">Of people who medically qualify for a cochlear implant are currently undertreated.</div>
@@ -768,19 +808,6 @@ function scrollToAnchor(href) {
         </div>
       </section>
 
-      <section class="usp" aria-label="Value proposition">
-        <div class="usp-card">
-          <div>
-            <h3 class="usp-title">Built for confident decisions</h3>
-            <p class="usp-body">
-              Sonaris combines interpretation support and structured output to help professionals act with more confidence.
-            </p>
-            <a class="btn btn-dark" href="#contact" @click.prevent="scrollToAnchor('#contact')">Read more</a>
-          </div>
-          <img :src="uspImageSrc" alt="USP Image" class="usp-media" aria-hidden="true" />
-        </div>
-      </section>
-
       <section class="products" aria-label="Products">
         <h3 class="section-title centered">Core capabilities</h3>
         <div class="product-grid">
@@ -827,77 +854,6 @@ function scrollToAnchor(href) {
           <button class="carousel-arrow" type="button" @click="nextTestimonial" aria-label="Next">
             ›
           </button>
-        </div>
-      </section>
-
-      <section class="impact" aria-label="Impact calculator">
-        <div class="impact-inner">
-          <div class="impact-copy">
-            <p class="impact-kicker">Pilot estimator</p>
-            <h3 class="section-title">Estimate your monthly time gain</h3>
-            <p class="impact-body">
-              Use your current workflow numbers to estimate how much clinician time Sonaris can unlock each month,
-              based on a conservative 7-minute benchmark per interpretation.
-            </p>
-
-            <div class="impact-metric" aria-live="polite">
-              <p class="impact-metric-value">{{ impactMonthlyHoursLabel }}</p>
-              <p class="impact-metric-label">hours saved per month</p>
-            </div>
-
-            <a class="btn btn-primary impact-cta" href="#contact" @click.prevent="scrollToAnchor('#contact')">
-              Get my pilot plan
-            </a>
-          </div>
-
-          <div class="impact-panel">
-            <div class="impact-fields">
-              <div class="impact-field impact-field-cases">
-                <label class="impact-label" for="impact-cases">Audiograms interpreted per week</label>
-                <input
-                  id="impact-cases"
-                  class="input"
-                  type="number"
-                  min="0"
-                  step="1"
-                  inputmode="numeric"
-                  v-model.number="impactInputs.audiogramsPerWeek"
-                />
-              </div>
-
-              <div class="impact-field impact-field-team">
-                <label class="impact-label" for="impact-team">Team size</label>
-                <input
-                  id="impact-team"
-                  class="input"
-                  type="number"
-                  min="1"
-                  step="1"
-                  inputmode="numeric"
-                  v-model.number="impactInputs.teamSize"
-                />
-              </div>
-            </div>
-
-            <p class="impact-assumption">
-              <strong>Assumption:</strong> 7 minutes saved per interpretation.
-            </p>
-
-            <div class="impact-results" aria-live="polite">
-              <article class="impact-result-card">
-                <p class="impact-result-value">{{ impactAnnualHoursLabel }}</p>
-                <p class="impact-result-label">hours saved per year</p>
-              </article>
-              <article class="impact-result-card">
-                <p class="impact-result-value">{{ impactPerClinicianLabel }}</p>
-                <p class="impact-result-label">hours per clinician each month</p>
-              </article>
-            </div>
-
-            <p class="impact-note">
-              Formula: (audiograms per week x 7 minutes x 4.3) / 60. Estimates vary by case complexity.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -1025,10 +981,8 @@ function scrollToAnchor(href) {
   --radius-card: 12px;
   --radius-panel: 18px;
   --radius-shell: 24px;
-  --radius-feature: 14px;
   --shadow-header: 0 8px 24px rgba(22, 26, 29, 0.06);
   --shadow-soft: 0 18px 36px rgba(22, 26, 29, 0.05);
-  --shadow-lift: 0 24px 48px rgba(22, 26, 29, 0.08);
   --shadow-shell: 0 22px 46px rgba(22, 26, 29, 0.08);
   color: var(--color-text);
   overflow-x: hidden;
@@ -1038,7 +992,6 @@ function scrollToAnchor(href) {
 .hero-inner,
 .highlights,
 .micro,
-.usp-card,
 .products,
 .verdict,
 .roadmap-inner,
@@ -1272,7 +1225,15 @@ function scrollToAnchor(href) {
 
 .hero {
   position: relative;
-  padding: 120px var(--layout-gutter) 80px;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  display: grid;
+  align-items: center;
+  padding: clamp(6em, 12vh, 8.625em) var(--layout-gutter) clamp(2.75em, 8vh, 5.375em);
 }
 
 .hero-wave {
@@ -1282,53 +1243,71 @@ function scrollToAnchor(href) {
   transform: translateX(-10%);
   width: auto;
   height: auto;
+  opacity: 1;
+  filter: saturate(0.95) brightness(1.08);
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
 }
 
 @media (min-width: 1200px) {
   .hero-wave {
-    width: 120vw;
+    width: 140vw;
   }
 }
 
 .hero-inner {
   position: relative;
   z-index: 1;
+  width: 100%;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 28px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(1.375em, 4vw, 3.5em);
   align-items: center;
 }
 
+.hero-copy {
+  display: grid;
+  align-content: start;
+  gap: clamp(0.75em, 2.1vh, 1.375em);
+  max-width: 50em;
+}
+
 .hero-subtitle {
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(2rem, 4.6vw, 4.2rem);
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  max-width: 18ch;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  max-width: 17.5ch;
 }
 
 .hero-body {
-  margin-top: 14px;
-  max-width: 44ch;
-  font-size: 15px;
+  margin-top: 0;
+  max-width: 50ch;
+  font-size: clamp(1rem, 1.26vw, 1.24rem);
   line-height: 1.7;
   color: color-mix(in srgb, var(--color-text) 85%, transparent);
 }
 
 .hero-actions {
-  margin-top: 14px;
+  margin-top: 0;
+}
+
+.hero-actions .btn.btn-primary {
+  height: clamp(2.9em, 5.5vh, 3.5em);
+  padding-inline: clamp(1.2em, 2.6vw, 2.3em);
+  font-size: clamp(0.95em, 1vw + 0.35vh, 1.2em);
 }
 
 .hero-media {
   display: grid;
   place-items: center;
+  justify-self: end;
+  transform: translateX(1.1em);
 }
 
 .hero-model {
-  width: 460px;
-  height: 460px;
+  width: clamp(22em, 40vw, 39em);
+  height: clamp(22em, 40vw, 39em);
   max-width: 100%;
   background: transparent;
 }
@@ -1556,46 +1535,6 @@ function scrollToAnchor(href) {
   margin-top: 4px;
   font-size: 11px;
   color: color-mix(in srgb, var(--color-text) 70%, transparent);
-}
-
-.usp {
-  padding: 18px var(--layout-gutter);
-  z-index: 99;
-}
-
-.usp-card {
-  background: #c0c0c0;
-  color: #ffffff;
-  border-radius: var(--radius-feature);
-  padding: 18px;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 18px;
-  align-items: center;
-  z-index: 99;
-  box-shadow: var(--shadow-lift);
-  transition:
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.4s ease;
-}
-
-.usp-title {
-  font-weight: 800;
-  font-size: 16px;
-  z-index: 99;
-}
-
-.usp-body {
-  margin-top: 6px;
-  color: color-mix(in srgb, var(--color-text) 70%, transparent);
-}
-
-.usp-media {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: var(--radius-media);
-  display: block;
 }
 
 .products {
@@ -1946,12 +1885,19 @@ function scrollToAnchor(href) {
 
 /* Impact calculator section */
 .impact {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-background);
   padding: 14px var(--layout-gutter) 70px;
+  z-index: 1000;
 }
 
 .impact-inner {
+  position: relative;
+  z-index: 1;
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
   border-radius: var(--radius-shell);
+  background: var(--color-background);
   padding: 28px;
   box-shadow: var(--shadow-shell);
   display: grid;
@@ -1961,9 +1907,10 @@ function scrollToAnchor(href) {
 }
 
 .impact-copy {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  align-content: start;
+  align-self: stretch;
 }
 
 .impact-kicker {
@@ -2010,6 +1957,7 @@ function scrollToAnchor(href) {
 .impact-cta {
   width: min(100%, 460px);
   min-height: 44px;
+  margin-top: auto;
 }
 
 .impact-panel {
@@ -2023,7 +1971,7 @@ function scrollToAnchor(href) {
 
 .impact-fields {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -2032,16 +1980,25 @@ function scrollToAnchor(href) {
   gap: 6px;
 }
 
+.impact-slider-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.impact-helper {
+  margin: 2px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
 .impact-assumption {
-  margin: -2px 0 0;
+  margin: 0;
   font-size: 11px;
   line-height: 1.55;
   color: color-mix(in srgb, var(--color-text) 64%, transparent);
-}
-
-.impact-assumption strong {
-  font-weight: 700;
-  color: color-mix(in srgb, var(--color-text) 84%, transparent);
 }
 
 .impact-label {
@@ -2056,24 +2013,29 @@ function scrollToAnchor(href) {
   color: color-mix(in srgb, var(--color-text) 70%, transparent);
 }
 
-.impact-field .input {
-  height: 44px;
-  border-radius: var(--radius-media);
-  border-color: color-mix(in srgb, var(--color-text) 14%, var(--color-border));
-  background: #fcfcfc;
-  font-weight: 600;
-  font-size: 16px;
-  width: 9.375em;
+.impact-slider {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--color-accent);
+  cursor: pointer;
 }
 
-.impact-field .input:focus {
-  border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 14%, transparent);
+.impact-slider-value {
+  min-width: 3ch;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-text) 16%, var(--color-border));
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .impact-results {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -2098,15 +2060,6 @@ function scrollToAnchor(href) {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: color-mix(in srgb, var(--color-text) 62%, transparent);
-}
-
-.impact-note {
-  margin: 2px 0 0;
-  padding-top: 10px;
-  border-top: 1px dashed color-mix(in srgb, var(--color-text) 14%, transparent);
-  font-size: 11px;
-  line-height: 1.55;
-  color: color-mix(in srgb, var(--color-text) 64%, transparent);
 }
 
 /* Contact section */
@@ -2411,7 +2364,6 @@ function scrollToAnchor(href) {
   }
 
   .highlight:hover,
-  .usp-card:hover,
   .product-card:hover,
   .testimonial:hover {
     transform: translateY(-6px);
@@ -2430,13 +2382,38 @@ function scrollToAnchor(href) {
 
 /* ── Tablet (≤ 900px) ── */
 @media (max-width: 900px) {
+  .hero {
+    padding: clamp(5.625em, 14vh, 7.5em) var(--layout-gutter) clamp(2.25em, 8vh, 4.25em);
+  }
+
   .hero-inner {
     grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 1.25em;
+  }
+
+  .hero-copy {
+    justify-items: center;
+    max-width: 50em;
+  }
+
+  .hero-subtitle {
+    max-width: 19ch;
+  }
+
+  .hero-body {
+    margin-inline: auto;
+  }
+
+  .hero-media {
+    justify-self: center;
+    transform: none;
   }
 
   .hero-model {
-    width: 260px;
-    height: 260px;
+    width: clamp(17.5em, 50vw, 28em);
+    height: clamp(17.5em, 50vw, 28em);
   }
 
   .highlight {
@@ -2444,10 +2421,6 @@ function scrollToAnchor(href) {
   }
 
   .bap-bottom {
-    grid-template-columns: 1fr;
-  }
-
-  .usp-card {
     grid-template-columns: 1fr;
   }
 
@@ -2506,12 +2479,7 @@ function scrollToAnchor(href) {
   }
 
   .impact-fields {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .impact-field-cases,
-  .impact-field-team {
-    grid-column: auto;
+    grid-template-columns: 1fr;
   }
 
   .impact-results {
@@ -2556,21 +2524,26 @@ function scrollToAnchor(href) {
   }
 
   .hero {
-    padding: 100px 14px 24px;
+    padding: 5.375em 0.875em 1.75em;
+  }
+
+  .hero-inner {
+    gap: 1em;
   }
 
   .hero-subtitle {
-    font-size: 22px;
-    line-height: 1.25;
+    font-size: clamp(1.85rem, 9vw, 2.45rem);
+    line-height: 1.12;
   }
 
   .hero-body {
-    font-size: 13px;
+    font-size: 0.875em;
+    line-height: 1.62;
   }
 
   .hero-model {
-    width: 200px;
-    height: 200px;
+    width: min(82vw, 23em);
+    height: min(82vw, 23em);
   }
 
   .highlights {
@@ -2591,10 +2564,6 @@ function scrollToAnchor(href) {
   }
 
   .carousel-track {
-    grid-template-columns: 1fr;
-  }
-
-  .usp-card {
     grid-template-columns: 1fr;
   }
 
@@ -2650,11 +2619,6 @@ function scrollToAnchor(href) {
 
   .impact-fields {
     grid-template-columns: 1fr;
-  }
-
-  .impact-field-cases,
-  .impact-field-team {
-    grid-column: auto;
   }
 
   .impact-panel {

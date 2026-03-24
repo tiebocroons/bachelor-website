@@ -1,15 +1,45 @@
 ﻿<svg width="1759" height="840" viewBox="0 0 1759 840" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <linearGradient id="wave-gradient" gradientUnits="userSpaceOnUse" x1="-1759" y1="0" x2="0" y2="0">
-    <stop offset="0%"   stop-color="#e60f2f" stop-opacity="0.18"/>
-    <stop offset="46%"  stop-color="#e60f2f" stop-opacity="0.18"/>
-    <stop offset="50%"  stop-color="#ff2244" stop-opacity="1"/>
-    <stop offset="54%"  stop-color="#e60f2f" stop-opacity="0.18"/>
-    <stop offset="100%" stop-color="#e60f2f" stop-opacity="0.18"/>
-    <animate attributeName="x1" from="-1759" to="1759" dur="4s" repeatCount="indefinite" calcMode="linear"/>
-    <animate attributeName="x2" from="0"     to="3518" dur="4s" repeatCount="indefinite" calcMode="linear"/>
+    <stop offset="0%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="46%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="50%" stop-color="#ef5c70" stop-opacity="1"/>
+    <stop offset="54%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#e84a5f" stop-opacity="1"/>
+    <animate attributeName="x1" from="-1759" to="1759" dur="10.8s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="x2" from="0" to="3518" dur="10.8s" repeatCount="indefinite" calcMode="linear"/>
+  </linearGradient>
+  <linearGradient id="wave-gradient-alt" gradientUnits="userSpaceOnUse" x1="-1759" y1="0" x2="0" y2="0">
+    <stop offset="0%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="46%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="50%" stop-color="#f1687a" stop-opacity="1"/>
+    <stop offset="54%" stop-color="#e84a5f" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#e84a5f" stop-opacity="1"/>
+    <animate attributeName="x1" from="-1759" to="1759" dur="13.2s" begin="-3.4s" repeatCount="indefinite" calcMode="linear"/>
+    <animate attributeName="x2" from="0" to="3518" dur="13.2s" begin="-3.4s" repeatCount="indefinite" calcMode="linear"/>
   </linearGradient>
 </defs>
+<style>
+  path {
+    stroke-opacity: 0.68;
+    animation: wave-pulse 12s ease-in-out infinite;
+  }
+
+  path:nth-of-type(even) {
+    stroke: url(#wave-gradient-alt);
+    animation-delay: 1.8s;
+  }
+
+  @keyframes wave-pulse {
+    0%,
+    100% {
+      stroke-opacity: 0.48;
+    }
+    50% {
+      stroke-opacity: 0.72;
+    }
+  }
+</style>
 <path d="M0.184082 144.881C246.953 242.525 379.97 371.306 456.686 476.657C520.636 564.489 519.502 600.418 587.407 665.948C734.769 808.145 1017.06 906.203 1153.87 784.005C1221.26 723.809 1196.33 647.525 1228.57 503.115C1257.57 373.208 1332.55 194.541 1541.89 0.366577" stroke="url(#wave-gradient)" stroke-miterlimit="10"/>
 <path d="M0.67749 176.385C240.701 260.302 372.388 381.453 449.064 480.048C513.579 563.032 518.825 596.215 590.953 660.619C742.261 795.723 1007.37 889.784 1144.37 775.764C1214.94 717.039 1198.89 642.06 1236.66 498.074C1269.91 371.31 1346.42 195.698 1552.15 3.26463" stroke="url(#wave-gradient)" stroke-miterlimit="10"/>
 <path d="M1.17114 207.884C234.445 278.079 364.904 391.631 441.455 483.44C506.669 561.652 518.033 592.017 594.512 655.289C749.434 783.459 998.098 873.583 1134.89 767.528C1208.79 710.23 1201.34 636.67 1244.76 493.037C1282.14 369.446 1360.31 196.867 1562.45 6.18452" stroke="url(#wave-gradient)" stroke-miterlimit="10"/>
