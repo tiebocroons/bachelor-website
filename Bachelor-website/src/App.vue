@@ -63,28 +63,28 @@ const testimonials = [
     id: 1,
     rating: 5,
     quote:
-      '"Strong impact in a single day: clear insights, less noise, and immediately useful in practice."',
-    name: 'Dr. Sophie van den Berg',
-    role: 'ENT specialist',
-    avatar: publicAsset('clinic-24a0522.jpg'),
+      '"Er zijn nog geen reviews, dus schrijf ik er zelf maar eentje. Topsite!"',
+    name: 'Tiebo Croons',
+    role: 'Zelfbenoemd review-expert',
+    avatar: publicAsset('tiebo.jpg'),
   },
   {
     id: 2,
     rating: 5,
     quote:
-      '"The combination of interpretation and reporting makes referrals faster and more consistent."',
-    name: 'A. de Vries',
-    role: 'Hearing care specialist',
-    avatar: publicAsset('portrait-cochlear-implant.jpg'),
+      '"Als niemand anders het doet, dan doe ik het wel. Beste review ooit!"',
+    name: 'Marvis Ojo',
+    role: 'Hoofd fictieve feedback',
+    avatar: publicAsset('marvis.jpg'),
   },
   {
     id: 3,
     rating: 5,
     quote:
-      '"Fewer administrative steps, more focus on the patient. Exactly what we need."',
-    name: 'M. Jansen',
-    role: 'Healthcare professional',
-    avatar: publicAsset('medel-familie-68.webp'),
+      '"Deze review is zo goed, dat ik hem zelf geschreven heb. Volgende keer echte reviews?"',
+    name: "Lukas D'Haese",
+    role: 'Oprichter van de review-loze club',
+    avatar: publicAsset('lukas.jpg'),
   },
 ]
 
@@ -925,17 +925,25 @@ function scrollToAnchor(href) {
             </a>
             <p class="footer-tagline">Audiogram interpretation for the modern healthcare professional.</p>
             <div class="footer-social" aria-label="Social links">
+              <!-- Facebook -->
               <a class="social-dot" href="#" aria-label="Facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
+              <!-- YouTube -->
               <a class="social-dot" href="#" aria-label="YouTube">
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
               </a>
+              <!-- X (Twitter) -->
               <a class="social-dot" href="#" aria-label="X (Twitter)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a class="social-dot" href="#" aria-label="Instagram">
+              <!-- Instagram -->
+              <a class="social-dot" href="https://www.instagram.com/sonaris.tool/" target="_blank" rel="noopener" aria-label="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+              <!-- LinkedIn -->
+              <a class="social-dot" href="https://www.linkedin.com/company/sonaris-tool/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.28c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 10.28h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.58h-3v-9h2.89v1.23h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v4.72z"/></svg>
               </a>
             </div>
           </div>
