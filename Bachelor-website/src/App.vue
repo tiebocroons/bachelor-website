@@ -111,7 +111,7 @@ const formStatus = ref('idle') // 'idle' | 'submitting' | 'success' | 'error'
 const BASE_MINUTES_SAVED_PER_CASE = 7
 
 const impactInputs = reactive({
-  audiogramsPerWeek: 45,
+  audiogramsPerWeek: 1,
 })
 
 function toPositiveNumber(value, fallback = 0) {
@@ -642,7 +642,7 @@ function scrollToAnchor(href) {
                   id="impact-cases"
                   class="impact-slider"
                   type="range"
-                  min="0"
+                  min="1"
                   max="200"
                   step="1"
                   v-model.number="impactInputs.audiogramsPerWeek"
