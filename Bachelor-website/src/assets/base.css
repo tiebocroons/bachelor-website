@@ -83,4 +83,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  font-size: 1rem !important;
+}
+
 
